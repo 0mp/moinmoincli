@@ -33,7 +33,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-version=4.4.0
+version=4.4.1
 
 base='https://wiki.freebsd.org'
 conffile="$HOME/.moinmoincli.conf"
@@ -63,6 +63,7 @@ add_data() {
     data="$data${data:+&}$1"
 }
 
+# $textfile
 # $oldrawfile
 show_diff() {
     if git diff --exit-code --color=always -- "$oldrawfile" "$textfile"
@@ -86,6 +87,7 @@ encode() {
     printf '%s' "$1" | hexdump -v -e '/1 "%02x"' | sed 's/\(..\)/%\1/g'
 }
 
+# $workdir
 clean_up() {
     if [ -n "$workdir" ] && [ -d "$workdir" ]
     then
@@ -94,6 +96,10 @@ clean_up() {
     stty echo
 }
 
+# $name
+# $target
+# $comment
+# $textfile
 print_summary() {
     cat <<-EOF
 Summary
@@ -111,10 +117,15 @@ errxit() {
 }
 
 # This may be overwritten in the configuration file.
+# $target
 select_target() {
     printf '%s' "$target"
 }
 
+# $base
+# $oldrawfile
+# $rawpage
+# $target
 download_rawpage() {
     rawpage="$base/$target?action=raw"
     if ! curl "$rawpage" 1>"$oldrawfile" 2>/dev/null
@@ -123,6 +134,8 @@ download_rawpage() {
     fi
 }
 
+# $base
+# $target
 parse_target() {
     case $target in
         # If $target is already '/Foo' then we're done.
