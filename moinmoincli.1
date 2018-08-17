@@ -171,24 +171,29 @@ as
 .Ss Configuration file
 .Bd -literal
 # The username to use when logging in.
-name=CharlieRoot
+name='CharlieRoot'
 
 # The password for the account.
-password=osiolek.8
+password='secret'
 
 # The default target It's used unless a selector or
 # the -t flag is used.
 target='/WikiSandBox'
 
 # The default textfile.
-textfile=/tmp/wiki.moin
+textfile='/tmp/wiki.moin'
 
-# The select_target function, which defines the logic behind the
+# The select_target function, which defines the logic behind
 # selectors.
 select_target() {
     case "$1" in
-        [wW]*) target='/WiFi'; textfile="$HOME/wifi.moin" ;;
-        *) errxit "invalid selector '$1'" ;;
+        [wW]*)
+            target='/WiFi'
+            textfile="$HOME/wifi.moin"
+            ;;
+        *)
+            printf '%s\n' "invalid selector '$1'" >&2
+            ;;
     esac
 }
 .Ed
