@@ -24,7 +24,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.Dd August 16, 2018
+.Dd August 17, 2018
 .Dt MOINMOINCLI 1
 .Os
 .Sh NAME
@@ -168,6 +168,27 @@ as
 .Ql CharlieRoot :
 .Pp
 .Dl "moinmoincli -n CharlieRoot -f ./sandbox.txt -t /WikiSandBox"
+.Ss Suggested workflow
+.Bl -enum
+.It
+Configure
+.Pa "~/.moinmoincli.conf"
+so that it is not necessary to specify the username, the text file name and the
+target website every time.
+Use selectors for that.
+.It
+Grab the latest version of the wiki page with a selector:
+.Bd -literal -offset indent
+moinmoincli -u selectorYouHaveConfigured
+.Ed
+.It
+Edit the text file.
+.It
+Push the changes over to the wiki server with:
+.Bd -literal -offset indent
+moinmoincli selectorYouHaveConfigured
+.Ed
+.El
 .Ss Configuration file
 .Bd -literal
 # The username to use when logging in.
