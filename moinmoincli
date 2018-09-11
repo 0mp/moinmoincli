@@ -33,7 +33,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-version=4.5.1
+version=4.5.2
 
 base='https://wiki.freebsd.org'
 conffile="$HOME/.moinmoincli.conf"
@@ -66,7 +66,7 @@ add_data() {
 # $textfile
 # $oldrawfile
 show_diff() {
-    if ! which git > /dev/null 2>&1
+    if which git > /dev/null 2>&1
     then
         if git diff --exit-code --color=always -- "$oldrawfile" "$textfile"
         then
