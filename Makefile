@@ -32,8 +32,8 @@ MAN1DIR = $(MANDIR)/man1
 
 install:
 	mkdir -p $(BINDIR)
-	install -m 0755 moinmoincli $(BINDIR)/moinmoincli
+	install -m 0555 moinmoincli $(BINDIR)/moinmoincli
 	mkdir -p $(MAN1DIR)
-	install -m 0555 moinmoincli.1 $(MAN1DIR)/moinmoincli.1
+	install -m 0444 moinmoincli.1 $(MAN1DIR)/moinmoincli.1
 	mkdir -p $(EXAMPLESDIR)
-	install -m 0555 moinmoincli.conf.sample $(EXAMPLESDIR)/moinmoincli.conf.sample
+	install -m 0666 moinmoincli.conf.sample $(EXAMPLESDIR)/moinmoincli.conf.sample
