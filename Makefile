@@ -38,3 +38,7 @@ install:
 	install -m 0444 moinmoincli.1 $(MAN1DIR)/moinmoincli.1
 	mkdir -p $(EXAMPLESDIR)
 	install -m 0666 moinmoincli.conf.sample $(EXAMPLESDIR)/moinmoincli.conf.sample
+
+.PHONY: regenerate-readme
+regenerate-readme:
+	mandoc -Tmarkdown moinmoincli.1 | awk 'NR > 2 {print}' | sed '$$d' | sed '$$d' > README.md
