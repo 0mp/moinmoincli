@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: BSD-2-Clause
 #
-# Copyright (c) 2018 Mateusz Piotrowski <0mp@FreeBSD.org>
+# Copyright (c) 2019 Mateusz Piotrowski <0mp@FreeBSD.org>
 #
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions
@@ -24,12 +24,13 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-PREFIX = /usr/local
-BINDIR = $(DESTDIR)$(PREFIX)/bin
-EXAMPLESDIR = $(DESTDIR)$(PREFIX)/share/examples/moinmoincli
-MANDIR = $(DESTDIR)$(PREFIX)/man
-MAN1DIR = $(MANDIR)/man1
+PREFIX=		/usr/local
+BINDIR=		$(DESTDIR)$(PREFIX)/bin
+EXAMPLESDIR=	$(DESTDIR)$(PREFIX)/share/examples/moinmoincli
+MANDIR=		$(DESTDIR)$(PREFIX)/man
+MAN1DIR=	$(MANDIR)/man1
 
+.PHONY: install
 install:
 	mkdir -p $(BINDIR)
 	install -m 0555 moinmoincli $(BINDIR)/moinmoincli
