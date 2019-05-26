@@ -7,7 +7,8 @@
 # The base URL for the MoinMoin wiki pages.
 #base=https://wiki.FreeBSD.org
 
-# The default target It's used unless a selector or the -t flag is used.
+# The default target.
+# It is used unless a selector or the -t flag is used.
 target='/WikiSandBox'
 
 # The default textfile.
@@ -25,4 +26,3 @@ select_target() {
             ;;
         esac
 }
-
