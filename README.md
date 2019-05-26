@@ -106,9 +106,9 @@ The options are as follows:
 > and a
 > *textfile*.
 > As a result it is possible to use selectors to replace
-> '`moinmoincli -f ./80211ac.moin -t /WiFi/80211ac`'
+> "`moinmoincli -f ./80211ac.moin -t /WiFi/80211ac`"
 > with
-> '`moinmoincli ac`'
+> "`moinmoincli ac`"
 > using an
 > **ac**
 > selector.
@@ -120,64 +120,68 @@ action at a time:
 
 **y**, **k**
 
-	Confirm changes.
-	The action menu will be closed and the changes uploaded to the server.
+> Confirm changes.
+> The action menu will be closed and the changes uploaded to the server.
 
 **n**, **a**
 
-	Abort.
-	Close
-	**moinmoincli**
-	immediately.
+> Abort.
+> Close
+> **moinmoincli**
+> immediately.
 
 **t**
 
-	Mark changes as trivial so that subscribers to the modified wiki
-	page are not notified.
+> Mark changes as trivial so that subscribers to the modified wiki
+> page are not notified.
 
 **c**
 
-	Change the comment.
+> Change the comment.
 
 **d**
 
-	Show the diff.
+> Show the diff.
 
 **s**
 
-	Print the summary.
+> Print the summary.
 
 # FILES
 
 *~/.moinmoincli.conf*
 
-	The
-	**moinmoincli**
-	configuration file.
+> The
+> **moinmoincli**
+> configuration file.
 
 */tmp/moinmoincli-workdir*
 
-	The location of temporary files.
+> The location of temporary files.
 
 # EXAMPLES
 
-Download the code of
-'`https://wiki.freebsd.org/Community/Dogs`'
-and save it under
-'`./dogs.moinmoin`':
+## Example 1: Downloading Wiki Pages
 
-> moinmoincli --file ./dogs.moinmoin --target /Community/Dogs --update
+Download the code of
+*https://wiki.freebsd.org/Community/Dogs*
+and save it under
+*./dogs.moinmoin*:
+
+	$ moinmoincli --file ./dogs.moinmoin --target /Community/Dogs --update
+
+## Example 2: Uploading Wiki Pages
 
 Write
-'`./sandbox.txt`'
+*./sandbox.txt*
 to
-'`https://wiki.freebsd.org/WikiSandBox`'
+*https://wiki.freebsd.org/WikiSandBox*
 as
-'`CharlieRoot`':
+*CharlieRoot*:
 
-> moinmoincli -n CharlieRoot -f ./sandbox.txt -t /WikiSandBox
+	$ moinmoincli -n CharlieRoot -f ./sandbox.txt -t /WikiSandBox
 
-## Suggested workflow
+## Example 3: Suggested Workflow
 
 1.	Configure
 	*~/.moinmoincli.conf*
@@ -185,45 +189,47 @@ as
 	target website every time.
 	Use selectors for that.
 
-2.	Grab the latest version of the wiki page with a selector:  
-	> moinmoincli -u selectorYouHaveConfigured
+2.	Grab the latest version of the wiki page with a selector:
+
+		$ moinmoincli -u selectorYouHaveConfigured
 
 3.	Edit the text file.
 
-4.	Push the changes over to the wiki server with:  
-	> moinmoincli selectorYouHaveConfigured
+4.	Push the changes over to the wiki server with:
 
-## Configuration file
+		$ moinmoincli selectorYouHaveConfigured
 
-> # The username to use when logging in.
-> name='CharlieRoot'
-> 
-> # The password for the account.
-> password='secret'
-> 
-> # The default target It's used unless a selector or
-> # the -t flag is used.
-> target='/WikiSandBox'
-> 
-> # The default textfile.
-> textfile='/tmp/wiki.moin'
-> 
-> # The select_target function, which defines the logic behind
-> # selectors.
-> select_target() {
->     case "$1" in
->         [wW]*)
->             target='/WiFi'
->             textfile="$HOME/wifi.moin"
->             ;;
->         *)
->             printf '%s0 "invalid selector '$1'" >&2
->             ;;
->     esac
-> }
+## Configuration File
+
+	# The username to use when logging in.
+	name='CharlieRoot'
+	
+	# The password for the account.
+	password='secret'
+	
+	# The default target.
+	# It is used unless a selector or the -t flag is used.
+	target='/WikiSandBox'
+	
+	# The default textfile.
+	textfile='/tmp/wiki.moin'
+	
+	# The select_target function, which defines the logic behind
+	# selectors.
+	select_target() {
+	    case "$1" in
+	        [wW]*)
+	            target='/WiFi'
+	            textfile="$HOME/wifi.moin"
+	            ;;
+	        *)
+	            printf '%s\n' "invalid selector '$1'" >&2
+	            ;;
+	    esac
+	}
 
 # AUTHORS
 
 **moinmoincli**
 and its manual page was written by
-Mateusz Piotrowski <[0mp@FreeBSD.org](mailto:0mp@FreeBSD.org)>.
+Mateusz Piotrowski &lt;[0mp@FreeBSD.org](mailto:0mp@FreeBSD.org)&gt;.
