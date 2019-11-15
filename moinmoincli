@@ -33,7 +33,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-version=4.5.3
+version=4.6.0
 
 base='https://wiki.freebsd.org'
 conffile="$HOME/.moinmoincli.conf"
@@ -139,7 +139,7 @@ select_target() {
 # $target
 download_rawpage() {
     rawpage="$base/$target?action=raw"
-    if ! curl "$rawpage" 1>"$oldrawfile" 2>/dev/null
+    if ! curl --cookie "$cookiefile" "$rawpage" 1>"$oldrawfile" 2>/dev/null
     then
         errxit "failed to download old revision"
     fi
@@ -159,6 +159,32 @@ parse_target() {
         "${base#http*://}"*) target="${target#"${base#http*://}"}" ;;
         *) ;;
     esac
+}
+
+# $base
+# $cookiefile
+# $name
+# $password
+authenticate() {
+    if [ -z "$password" ]
+    then
+        printf '%s password: ' "$name"
+        stty -echo
+        read -r password
+        stty echo
+    fi
+
+    data=
+    add_data "action=login"
+    add_data "login=Login"
+    add_data "name=$name"
+    add_data "password=$password"
+
+    loginpage="$base/action/login/FrontPage"
+    if ! curl --data "$data" --cookie-jar "$cookiefile" "$loginpage" 1>/dev/null 2>&1
+    then
+        errxit "failed to log in"
+    fi
 }
 
 trap 'clean_up' EXIT
@@ -214,15 +240,16 @@ done
 
 parse_target
 
+[ -z "$name" ] && errxit 'missing username'
+
 if [ "@$updatemode@" = '@yes@' ]
 then
+    authenticate
     download_rawpage
     cat "$oldrawfile" > "$textfile"
     echo updated.
     exit 0
 fi
-
-[ -z "$name" ] && errxit 'missing username'
 
 ! textarea="$(cat -- "$textfile")" && errxit "failed to open '$textfile'"
 
@@ -271,27 +298,10 @@ do
     esac
 done
 
-if [ -z "$password" ]
-then
-    printf '%s password: ' "$name"
-    stty -echo
-    read -r password
-    stty echo
-fi
-
 echo processing...
 
-data=
-add_data "action=login"
-add_data "login=Login"
-add_data "name=$name"
-add_data "password=$password"
+authenticate
 
-loginpage="$base/action/login/FrontPage"
-if ! curl --data "$data" --cookie-jar "$cookiefile" "$loginpage" 1>/dev/null 2>&1
-then
-    errxit "failed to log in"
-fi
 editpage="$base/action/edit$target?action=edit&editor=text"
 if ! curl --cookie "$cookiefile" "$editpage" 1>"$editfile" 2>/dev/null
 then
