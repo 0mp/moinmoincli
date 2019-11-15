@@ -33,7 +33,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-version=4.5.2
+version=4.5.3
 
 base='https://wiki.freebsd.org'
 conffile="$HOME/.moinmoincli.conf"
@@ -163,6 +163,7 @@ parse_target() {
 
 trap 'clean_up' EXIT
 
+unset -v password
 [ -r "$conffile" ] && . "$conffile"
 
 while [ $# -gt 0 ]
