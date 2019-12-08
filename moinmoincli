@@ -33,7 +33,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
-version=4.6.0
+version=4.6.1
 
 base='https://wiki.freebsd.org'
 conffile="$HOME/.moinmoincli.conf"
@@ -172,6 +172,7 @@ authenticate() {
         stty -echo
         read -r password
         stty echo
+        printf '\n'
     fi
 
     data=
